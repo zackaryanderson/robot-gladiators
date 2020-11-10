@@ -13,7 +13,7 @@ var enemyAttack = 12;
 // *Defeat all enemy-robots
 //"LOSE" -Player robot's health is zero or less
 
-window.alert("Welcome to Robot Gladiators! \n \n" + playerName + " is ready for battle!");
+window.alert("Welcome to Battlebots! \n \n" + playerName + " is ready for battle!");
 
 var fight = function (enemyName) {
     while (enemyHealth > 0 && playerHealth > 0) {
@@ -27,7 +27,7 @@ var fight = function (enemyName) {
 
             //if yes leave fight
             if (confirmSkip) {
-                window.alert(playerName + " has chosen to skip the fight! Peace!");
+                window.alert(playerName + " has chosen to skip the fight! NEXT!");
 
                 //subtract money
                 playerMoney = playerMoney - 10;
@@ -80,8 +80,17 @@ var fight = function (enemyName) {
 };
 
 for (var i = 0; i < enemyNames.length; i++) {
-    var pickedEnemyName = enemyNames[i];
-    enemyHealth = 50;
-    //call fight function with enemy-robot
-    fight(enemyNames[i]);
+
+    if (playerHealth > 0){
+        var pickedEnemyName = enemyNames[i];
+        window.alert("Round " + (i + 1) + "\n \n" + "Opponent: " + pickedEnemyName);
+        enemyHealth = 50;
+
+        //call fight function with enemy-robot
+        fight(pickedEnemyName);
+    }
+    else {
+        window.alert( "You have lost your robot in battl! Game Over!");
+        break;
+    }
 }
