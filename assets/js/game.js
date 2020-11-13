@@ -210,21 +210,20 @@ var endGame = function () {
 
 var shop = function () {
     var shopOptionPrompt = window.prompt(
-        "Would you like to REFILL your health ($7), UPGRADE your attack ($7), or LEAVE the shop? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice."
+        "Would you like to REFILL your health ($7), UPGRADE your attack ($7), or LEAVE the shop? Please enter one: 1 for REFILL, 2 for UPGRADE, or 3 to LEAVE."
     );
+    //convert string input to integer. Dont really need this if you just make the cases strings in the first place
+    shopOptionPrompt = parseInt(shopOptionPrompt);
 
     //use switch to carry out action
     switch (shopOptionPrompt) {
-        case "REFILL":
-        case "refill":
+        case 1:
             playerInfo.refillHealth();
             break;
-        case "UPGRADE":
-        case "upgrade":
+        case 2:
             playerInfo.upgradeAttack();
             break;
-        case "LEAVE":
-        case "leave":
+        case 3:
             window.alert("Leaving the store.");
             break;
         default:
