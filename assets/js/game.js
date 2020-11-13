@@ -204,13 +204,23 @@ var startGame = function () {
 
 //function to end game
 var endGame = function () {
-    //if player is still alive, player wins
-    if (playerInfo.health > 0) {
-        window.alert("Great job, you've survived the game! You secured a bag of $" + playerInfo.money + ".");
+    window.alert("GAME OVER");
+    //check local storage for high score, if not there use 0
+    var highScore = localStorage.getItem("highscore");
+    if(highScore === null) {
+        highScore = 0;
+    }
+    //set high score if player beat it
+    if (playerInfo.money > highScore) {
+        localStorage.setItem("highscore", playerInfo.money);
+        localStorage.setItem("name",playerInfo.name);
+
+        alert(playerInfo.name + " set a new high score! \n Score: " + playerInfo.money);
     }
     else {
-        window.alert("GAME OVER");
+        alert(playerInfo.name + " did not beat the high score of " + highScore + "\n Your score: " + playerInfo.money);
     }
+
     var playAgainConfirm = window.confirm("Would you like to play again?")
 
     if (playAgainConfirm) {
