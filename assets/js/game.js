@@ -218,7 +218,7 @@ var endGame = function () {
         alert(playerInfo.name + " set a new high score! \n Score: " + playerInfo.money);
     }
     else {
-        alert(playerInfo.name + " did not beat the high score of " + highScore + "\n Your score: " + playerInfo.money);
+        alert(playerInfo.name + " did not beat the high score of " + highScore + "\nYour score: " + playerInfo.money);
     }
 
     var playAgainConfirm = window.confirm("Would you like to play again?")
@@ -243,9 +243,11 @@ var shop = function () {
     switch (shopOptionPrompt) {
         case 1:
             playerInfo.refillHealth();
+            shop();
             break;
         case 2:
             playerInfo.upgradeAttack();
+            shop();
             break;
         case 3:
             window.alert("Leaving the store.");
