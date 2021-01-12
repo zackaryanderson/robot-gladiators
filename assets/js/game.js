@@ -145,6 +145,11 @@ var fight = function (enemy) {
             }
         }
         else {
+            // ask player if they'd like to fight or skip using fightOrSkip function
+            if (fightOrSkip()) {
+                //if true, leave fight by breaking loop
+                break;
+            }
             //subtract the value of 'enemyAttack' from the value of 'playerHealth'
             var damage = randomNumber(enemy.attack - 3, enemy.attack);
             playerInfo.health = Math.max(0, playerInfo.health - damage);
