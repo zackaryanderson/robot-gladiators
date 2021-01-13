@@ -1,3 +1,6 @@
+//value for max health that can be upgraded
+var maxHealth = 100;
+
 var getPlayerName = function () {
     var name = "";
 
@@ -19,11 +22,21 @@ var playerInfo = {
         this.money = 10;
         this.attack = 10;
     },
-    refillHealth: function () {
+    upgradeHealth: function () {
         if (this.money >= 7) {
-            window.alert("Refilling player's health by 20 for 7 dollars.");
-            this.health += 20;
+            window.alert("Increasing player's max health by 20 for 7 dollars.");
+            maxHealth += 20;
             this.money -= 7;
+        }
+        else {
+            window.alert("That bag is empty, Dawg");
+        }
+    },
+    restoreHealth: function () {
+        if (this.money >= 15) {
+            window.alert("Restoring all health to player for $15.");
+            this.health = maxHealth;
+            this.money -= 15;
         }
         else {
             window.alert("That bag is empty, Dawg");
@@ -52,23 +65,58 @@ var randomNumber = function (min, max) {
 var enemyInfo = [
     {
         name: "Roberto",
-        attack: randomNumber(10, 14)
+        attack: randomNumber(8, 12),
+        health: randomNumber(35, 55)
     },
     {
         name: "Amy Android",
-        attack: randomNumber(10, 14)
+        attack: randomNumber(10, 14),
+        health: randomNumber(40, 60)
     },
     {
         name: "Robo Trumble",
-        attack: randomNumber(10, 14)
-    }
+        attack: randomNumber(10, 14),
+        health: randomNumber(40, 60)
+    },
+    {
+        name: "Mach",
+        attack: randomNumber(12, 16),
+        health: randomNumber(45, 65)
+    },
+    {
+        name: "Golem",
+        attack: randomNumber(10, 16),
+        health: randomNumber(85, 90),
+        boss: true
+    },
+    {
+        name: "Robostein",
+        attack: randomNumber(8, 12),
+        health: randomNumber(35, 55)
+    },
+    {
+        name: "Warlord",
+        attack: randomNumber(15, 19),
+        health: randomNumber(65, 80)
+    },
+    {
+        name: "Terminator",
+        attack: randomNumber(20, 21),
+        health: randomNumber(35, 55)
+    },
+    {
+        name: "Woke Bot",
+        attack: randomNumber(17, 24),
+        health: randomNumber(65, 90)
+    },
+    {
+        name: "KING BOT",
+        attack: randomNumber(25, 35),
+        health: randomNumber(130, 190),
+        boss: true
+    },
 ];
 
-//Game States
-//"WIN" - Player robot has defeated all enemy-robots
-// *Fight all enemy-robots
-// *Defeat all enemy-robots
-//"LOSE" -Player robot's health is zero or less
 
 var fightOrSkip = function () {
     var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'Fight' or 'Skip' to choose.");
@@ -92,7 +140,6 @@ var fightOrSkip = function () {
             playerInfo.money = Math.max(0, playerInfo.money - 10);
             console.log("playerInfo.money", playerInfo.money);
             return true;
-            shop();
         }
         //if no, ask question again by running fight()
         else {
@@ -102,10 +149,15 @@ var fightOrSkip = function () {
     return false;
 }
 
-window.alert("Welcome to Battlebots! \n \n" + playerInfo.name + " is ready for battle!");
+window.alert("Welcome to Battlebots! \n" + playerInfo.name + " is ready for battle!");
 
 var fight = function (enemy) {
-    window.alert("Oponnent: " + enemy.name);
+    if (!enemy.boss) {
+        window.alert("Oponnent: " + enemy.name);
+    }
+    else {
+        window.alert("BOSS ROUND\n Oponnent: " + enemy.name);
+    }
     //keep track of who goes first
     var isPlayerTurn = true;
 
@@ -117,11 +169,12 @@ var fight = function (enemy) {
 
         if (isPlayerTurn) {
 
-            // ask player if they'd like to fight or skip using fightOrSkip function
-            if (fightOrSkip()) {
-                //if true, leave fight by breaking loop
-                break;
-            }
+            //remove this so player has to fight every time
+            // // ask player if they'd like to fight or skip using fightOrSkip function
+            // if (fightOrSkip()) {
+            //     //if true, leave fight by breaking loop
+            //     break;
+            // }
 
             //Subtract value of 'playerAttack' from the value of 'enemyHealth;
             var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
@@ -138,18 +191,18 @@ var fight = function (enemy) {
 
                 //award for defeating robot
                 playerInfo.money = playerInfo.money + 20;
+                //add more money if boss fight 
+                if (enemy.boss) {
+                    playerInfo.money = playerInfo.money + 30;
+                }
                 break;
             }
             else {
-                window.alert(enemy.name + " still has " + enemy.health + " health left.");
+                window.alert(playerInfo.name + " attacked " + enemy.name + ". They now have " + enemy.health + " health left.");
             }
         }
         else {
-            // ask player if they'd like to fight or skip using fightOrSkip function
-            if (fightOrSkip()) {
-                //if true, leave fight by breaking loop
-                break;
-            }
+
             //subtract the value of 'enemyAttack' from the value of 'playerHealth'
             var damage = randomNumber(enemy.attack - 3, enemy.attack);
             playerInfo.health = Math.max(0, playerInfo.health - damage);
@@ -161,11 +214,11 @@ var fight = function (enemy) {
 
             //check player health
             if (playerInfo.health <= 0) {
-                window.alert(playerInfo.name + " has died!");
+                window.alert(playerInfo.name + " has been attacked and died!");
                 break;
             }
             else {
-                window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
+                window.alert(playerInfo.name + " was attacked. They still have " + playerInfo.health + " health left.");
             }
         }
         //switch turn order for next round
@@ -181,7 +234,6 @@ var startGame = function () {
         if (playerInfo.health > 0) {
             var pickedEnemyObj = enemyInfo[i];
             window.alert("Round " + (i + 1));
-            pickedEnemyObj.health = randomNumber(40, 60);
 
             //call fight function with enemy-robot
             console.log(pickedEnemyObj)
@@ -212,13 +264,13 @@ var endGame = function () {
     window.alert("GAME OVER");
     //check local storage for high score, if not there use 0
     var highScore = localStorage.getItem("highscore");
-    if(highScore === null) {
+    if (highScore === null) {
         highScore = 0;
     }
     //set high score if player beat it
     if (playerInfo.money > highScore) {
         localStorage.setItem("highscore", playerInfo.money);
-        localStorage.setItem("name",playerInfo.name);
+        localStorage.setItem("name", playerInfo.name);
 
         alert(playerInfo.name + " set a new high score! \n Score: " + playerInfo.money);
     }
@@ -239,15 +291,16 @@ var endGame = function () {
 
 var shop = function () {
     var shopOptionPrompt = window.prompt(
-        "Would you like to REFILL your health ($7), UPGRADE your attack ($7), or LEAVE the shop? Please enter one: 1 for REFILL, 2 for UPGRADE, or 3 to LEAVE."
-    );
+        //"Money: " + playerInfo.money + "\n" + "Would you like to RESTORE your health (Max Health for $15), UPGRADE your attack (+7 for $7), INCREASE your max health (+20 for $7), or LEAVE the shop? Please enter one: 1 for RESTORE, 2 for UPGRADE, 3 to INCREASE, or 4 to LEAVE."
+        "Money: " + playerInfo.money + "\n" + "Would you like to:\n (1): RESTORE your health (Max Health for $15)\n (2): UPGRADE your attack (+7 for $7)\n (3): INCREASE your max health (+20 for $7)\n (4): LEAVE the shop?\nPlease enter a number."
+        );
     //convert string input to integer. Dont really need this if you just make the cases strings in the first place
     shopOptionPrompt = parseInt(shopOptionPrompt);
 
     //use switch to carry out action
     switch (shopOptionPrompt) {
         case 1:
-            playerInfo.refillHealth();
+            playerInfo.restoreHealth();
             shop();
             break;
         case 2:
@@ -255,6 +308,10 @@ var shop = function () {
             shop();
             break;
         case 3:
+            playerInfo.upgradeHealth();
+            shop();
+            break;
+        case 4:
             window.alert("Leaving the store.");
             break;
         default:
