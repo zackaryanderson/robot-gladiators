@@ -1,5 +1,5 @@
 //value for max health that can be upgraded
-var maxHealth = 100;
+let maxHealth = 100;
 
 var getPlayerName = function () {
     var name = "";
@@ -21,6 +21,7 @@ var playerInfo = {
         this.health = 100;
         this.money = 10;
         this.attack = 10;
+        maxHealth = 100;
     },
     upgradeHealth: function () {
         if (this.money >= 7) {
@@ -71,48 +72,48 @@ var enemyInfo = [
     {
         name: "Amy Android",
         attack: randomNumber(10, 14),
-        health: randomNumber(40, 60)
+        health: randomNumber(45, 60)
     },
     {
         name: "Robo Trumble",
-        attack: randomNumber(10, 14),
-        health: randomNumber(40, 60)
+        attack: randomNumber(15, 20),
+        health: randomNumber(50, 60)
     },
     {
         name: "Mach",
-        attack: randomNumber(12, 16),
-        health: randomNumber(45, 65)
+        attack: randomNumber(20, 25),
+        health: randomNumber(60, 70)
     },
     {
         name: "Golem",
-        attack: randomNumber(10, 16),
-        health: randomNumber(85, 90),
+        attack: randomNumber(25, 30),
+        health: randomNumber(140, 155),
         boss: true
     },
     {
         name: "Robostein",
-        attack: randomNumber(8, 12),
-        health: randomNumber(35, 55)
+        attack: randomNumber(18, 26),
+        health: randomNumber(70, 85)
     },
     {
         name: "Warlord",
-        attack: randomNumber(15, 19),
-        health: randomNumber(65, 80)
+        attack: randomNumber(30, 40),
+        health: randomNumber(80, 90)
     },
     {
         name: "Terminator",
-        attack: randomNumber(20, 21),
-        health: randomNumber(35, 55)
+        attack: randomNumber(35, 45),
+        health: randomNumber(130, 140)
     },
     {
         name: "Woke Bot",
-        attack: randomNumber(17, 24),
-        health: randomNumber(65, 90)
+        attack: randomNumber(45, 55),
+        health: randomNumber(120, 150)
     },
     {
         name: "KING BOT",
-        attack: randomNumber(25, 35),
-        health: randomNumber(130, 190),
+        attack: randomNumber(60, 80),
+        health: randomNumber(200, 220),
         boss: true
     },
 ];
@@ -190,7 +191,7 @@ var fight = function (enemy) {
                 window.alert(enemy.name + " has died!");
 
                 //award for defeating robot
-                playerInfo.money = playerInfo.money + 20;
+                playerInfo.money = playerInfo.money + 15;
                 //add more money if boss fight 
                 if (enemy.boss) {
                     playerInfo.money = playerInfo.money + 30;
@@ -292,7 +293,7 @@ var endGame = function () {
 var shop = function () {
     var shopOptionPrompt = window.prompt(
         //"Money: " + playerInfo.money + "\n" + "Would you like to RESTORE your health (Max Health for $15), UPGRADE your attack (+7 for $7), INCREASE your max health (+20 for $7), or LEAVE the shop? Please enter one: 1 for RESTORE, 2 for UPGRADE, 3 to INCREASE, or 4 to LEAVE."
-        "Money: " + playerInfo.money + "\n" + "Would you like to:\n (1): RESTORE your health (Max Health for $15)\n (2): UPGRADE your attack (+7 for $7)\n (3): INCREASE your max health (+20 for $7)\n (4): LEAVE the shop?\nPlease enter a number."
+        "Money: " + playerInfo.money + "    Health: " + playerInfo.health + "/" + maxHealth + "    Attack: " + playerInfo.attack + "\n" + "Would you like to:\n (1): RESTORE your health (Max Health for $15)\n (2): UPGRADE your attack (+7 for $7)\n (3): INCREASE your max health (+20 for $7)\n (4): LEAVE the shop?\nPlease enter a number."
         );
     //convert string input to integer. Dont really need this if you just make the cases strings in the first place
     shopOptionPrompt = parseInt(shopOptionPrompt);
